@@ -1,5 +1,5 @@
 <script>
-  import { format, compareAsc, differenceInDays, parseISO, subDays, addDays} from 'date-fns';
+  import { format, compareAsc, differenceInDays, parseISO, subDays, addDays, subMonths} from 'date-fns';
   import axios from 'axios';
 
   function date_to_array_index(date, today, today_index) {
@@ -40,6 +40,9 @@
   let weeks = [];
   weeks.length = 51;
   weeks.fill(0);
+  let months = [];
+  months.length = 13;
+  months.fill(0);
   const today = new Date();
   const today_index = 350 + parseWeekday(today.getDay());
   console.log(today_index);
@@ -84,7 +87,6 @@
           cell.style.backgroundColor = "#00204a";
       }
     }
-    //on:click={() => display_info(k*7 + i))}
 
   })
   .catch(function (error) {
@@ -92,6 +94,16 @@
   })
 
 </script>
+
+<div class="vertical">
+
+<table class="month-table">
+  <tr>
+    {#each months as month, i}
+      <th class="month"> {format(subMonths(today, 12-i), "MMM")} </th>
+    {/each}
+  </tr>
+</table>
 
 <div class="horizontal">
 
@@ -116,13 +128,25 @@
 
 </div>
 
+</div>
+
 <div class="popup" >
   <span class="popuptext" id="myPopup">A Simple Popup!</span>
 </div>
 
 <style>
+
+  .month-table {
+    width: 1675px;
+    margin-left: 50px;
+  }
+
+  .month {
+    width: 135px;
+  }
+
 	.calendar_element {
-    height: 30px;
+    aspect-ratio : 1 / 1;
     width: 30px;
     border-color: white;
 	}
@@ -167,13 +191,6 @@
   border-color: transparent transparent #000000 transparent;
 }
 
-/* Toggle this class - hide and show the popup */
-.popup .show {
-  visibility: visible;
-  -webkit-animation: fadeIn 1s;
-  animation: fadeIn 1s;
-}
-
 /* Add animation (fade in the popup) */
 @-webkit-keyframes fadeIn {
   from {opacity: 0;}
@@ -190,6 +207,11 @@
   flex-direction: row;
 }
 
+.vertical {
+  display: flex;
+  flex-direction: column;
+}
+
 table {
   border-spacing: 0px;
 }
@@ -200,7 +222,7 @@ ul {
 }
 
 li {
-display: inline-block;
+  display: block;
   height : 31.6px;
   text-align: center;
   text-color: '#D3D3D3';
