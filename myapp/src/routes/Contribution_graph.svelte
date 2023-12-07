@@ -93,6 +93,14 @@
 
 </script>
 
+<div class="horizontal">
+
+<ul>
+  {#each days as day, i}
+    <li> {day} </li>
+  {/each}
+</ul>
+
 <table>
   {#each days as day, i}
       <tr>
@@ -106,14 +114,16 @@
 
 </table>
 
+</div>
+
 <div class="popup" >
   <span class="popuptext" id="myPopup">A Simple Popup!</span>
 </div>
 
 <style>
 	.calendar_element {
-    height:30px;
-    width:30px;
+    height: 30px;
+    width: 30px;
     border-color: white;
 	}
 
@@ -173,6 +183,33 @@
 @keyframes fadeIn {
   from {opacity: 0;}
   to {opacity:1 ;}
+}
+
+.horizontal {
+  display: flex;
+  flex-direction: row;
+}
+
+table {
+  border-spacing: 0px;
+}
+
+ul {
+  list-style: none;
+  margin: 1px;
+}
+
+li {
+display: inline-block;
+  height : 31.6px;
+  text-align: center;
+  text-color: '#D3D3D3';
+}
+
+th {
+  padding-top : 0px;
+  padding-bottom : 0px;
+  margin-top : 0px;
 }
 
 </style>
