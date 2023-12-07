@@ -29,7 +29,43 @@
     popup.appendChild(commits_display);
     popup.appendChild(date_display);
 
-    popup.style.top = (rect.top - 238) + 'px';
+    popup.style.top = (rect.top - 290) + 'px';
+    popup.style.left = (rect.left - 72) + 'px';
+
+    popup.style.visibility = 'visible';
+
+  }
+
+  function display_hint(event, index) {
+    var rect = event.target.getBoundingClientRect();
+
+    var popup = document.getElementById("myPopup");
+    popup.innerHTML = "";
+
+    var commits_display = document.createElement('h3');
+    var string;
+    switch(index) {
+      case 0:
+        string = "No";
+        break;
+      case 1:
+        string = "1-9";
+        break;
+      case 2:
+        string = "10-19";
+        break;
+      case 3:
+        string = "20-29";
+        break;
+      case 4:
+        string = "30+";
+        break;
+    }
+    commits_display.innerHTML = string + " contributions";
+
+    popup.appendChild(commits_display);
+
+    popup.style.top = (rect.top - 290) + 'px';
     popup.style.left = (rect.left - 72) + 'px';
 
     popup.style.visibility = 'visible';
@@ -136,7 +172,7 @@
   <tr>
   {#each colors as color, i}
     <th>
-      <button class='calendar_element' style="background-color: {colors[i]}" > </button>
+      <button class='calendar_element' style="background-color: {colors[i]}" on:click={(event) => display_hint(event, i)} > </button>
     </th>
   {/each}
   </tr>
