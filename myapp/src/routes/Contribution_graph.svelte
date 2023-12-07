@@ -1,5 +1,5 @@
 <script>
-  import { format, compareAsc, differenceInDays, parseISO, subDays, addDays, subMonths} from 'date-fns';
+  import { format, compareAsc, differenceInDays, parseISO, subDays, addDays, subMonths, getMonth} from 'date-fns';
   import axios from 'axios';
 
   function date_to_array_index(date, today, today_index) {
@@ -77,9 +77,7 @@
   let weeks = [];
   weeks.length = 51;
   weeks.fill(0);
-  let months = [];
-  months.length = 13;
-  months.fill(0);
+  let months = ["Янв.", "Февр.", "Март", "Апр.", "Май", "Июнь", "Июль", "Авг.", "Сент.", "Окт.", "Нояб.", "Дек.", ""];
   const today = new Date();
   const today_index = 350 + parseWeekday(today.getDay());
   console.log(today_index);
@@ -137,7 +135,7 @@
 <table class="month-table">
   <tr>
     {#each months as month, i}
-      <th class="month"> {format(subMonths(today, 12-i), "MMM")} </th>
+      <th class="month"> {months[getMonth(subMonths(today, 12-i))]} </th>
     {/each}
   </tr>
 </table>
