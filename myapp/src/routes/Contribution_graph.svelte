@@ -3,24 +3,49 @@
   import axios from 'axios';
 
   function date_to_array_index(date, today, today_index) {
-    return today_index + differenceInDays(parseISO(date), today);
+    var index =  today_index + differenceInDays(parseISO(date), today);
+    return index;
   }
 
 	const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+  let weeks = [];
+  weeks.length = 51;
+  weeks.fill(0);
   const today = new Date();
   const today_index = 350 + today.getDay();
-  let days_array = Array(357);
+  console.log(today_index);
+  let days_array = [];
+  days_array.length = 357;
+  days_array.fill(0);
   let data;
 
   axios.get('https://dpg.gg/test/calendar.json')
   .then(function (response) {
     data = response.data;
-    console.log(data);
     for (const [key, value] of Object.entries(data)) {
       var index =  date_to_array_index(key, today, today_index);
-      days_array[index] = value;
+      if (index >= 0) {// otherwise outside of 50 week range
+        days_array[index] = value;
+      }
     }
     console.log(days_array);
+    for (let j = 0; j < days_array.length; j++) {
+      var s = 'day_' + j;
+      var cell = document.getElementById(s);
+      console.log(cell);
+      if (days_array[j] == 0) {
+          cell.style.backgroundColor = "light-gray";
+      } else if (days_array[j] < 10) {
+          cell.style.backgroundColor = "#79c2d0";
+      } else if (days_array[j] < 20) {
+          cell.style.backgroundColor = "#53a8b6";
+      } else if (days_array[j] < 30) {
+          cell.style.backgroundColor = "#5585b5";
+      } else {
+          cell.style.backgroundColor = "#00204a";
+      }
+    }
+
   })
   .catch(function (error) {
     console.log(error);
@@ -29,11 +54,11 @@
 </script>
 
 <table>
-  {#each days as day}
+  {#each days as day, i}
       <tr>
-          {#each Array(51) as week}
+          {#each weeks as week, k}
             <th>
-              <button> </button>
+              <button id={('day_' + (k*7 + i))}> </button>
             </th>
           {/each}
       </tr>
