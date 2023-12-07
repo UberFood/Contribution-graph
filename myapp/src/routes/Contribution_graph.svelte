@@ -37,6 +37,7 @@
   }
 
 	const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+  const colors = ["light-gray", "#93deff", "#53a8b6", "#5585b5", "#00204a"];
   let weeks = [];
   weeks.length = 51;
   weeks.fill(0);
@@ -76,15 +77,15 @@
       var s = 'day_' + j;
       var cell = document.getElementById(s);
       if (days_array[j] == 0) {
-          cell.style.backgroundColor = "light-gray";
+          cell.style.backgroundColor = colors[0];
       } else if (days_array[j] < 10) {
-          cell.style.backgroundColor = "#79c2d0";
+          cell.style.backgroundColor = colors[1];
       } else if (days_array[j] < 20) {
-          cell.style.backgroundColor = "#53a8b6";
+          cell.style.backgroundColor = colors[2];
       } else if (days_array[j] < 30) {
-          cell.style.backgroundColor = "#5585b5";
+          cell.style.backgroundColor = colors[3];
       } else {
-          cell.style.backgroundColor = "#00204a";
+          cell.style.backgroundColor = colors[4];
       }
     }
 
@@ -126,6 +127,22 @@
 
 </table>
 
+</div>
+
+<div class="horizontal">
+  <h4>Меньше </h4>
+
+  <table>
+  <tr>
+  {#each colors as color, i}
+    <th>
+      <button class='calendar_element' style="background-color: {colors[i]}" > </button>
+    </th>
+  {/each}
+  </tr>
+  </table>
+
+  <h4>Больше </h4>
 </div>
 
 </div>
