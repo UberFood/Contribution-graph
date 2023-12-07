@@ -1,5 +1,5 @@
 <script>
-  import { format, compareAsc, differenceInDays, parseISO} from 'date-fns';
+  import { format, compareAsc, differenceInDays, parseISO, subDays, addDays} from 'date-fns';
   import axios from 'axios';
 
   function date_to_array_index(date, today, today_index) {
@@ -7,15 +7,22 @@
     return index;
   }
 
+  function parseWeekday(num) {
+    if (num == 0) {
+      return 6;
+    } else {
+      return num - 1;
+    }
+  }
+
   function display_info(event, index) {
     var rect = event.target.getBoundingClientRect();
-    console.log(rect.top, rect.right, rect.bottom, rect.left);
 
     var popup = document.getElementById("myPopup");
     popup.innerHTML = "";
 
     var date_display = document.createElement('h4');
-    date_display.innerHTML = days_date[index];
+    date_display.innerHTML = format(days_date[index], "eeee MMM d',' y");
     var commits_display = document.createElement('h3');
     commits_display.innerHTML = days_array[index] + " contributions";
 
@@ -34,13 +41,22 @@
   weeks.length = 51;
   weeks.fill(0);
   const today = new Date();
-  const today_index = 350 + today.getDay();
+  const today_index = 350 + parseWeekday(today.getDay());
   console.log(today_index);
   let days_array = [];
   days_array.length = 357;
   days_array.fill(0);
 
   let days_date = [];
+  for (let i = 0; i < today_index; i++) {
+    days_date[i] = subDays(today, today_index - i);
+  }
+
+  days_date[today_index] = today;
+  for (let i = today_index + 1; i < 357; i++) {
+    days_date[i] = addDays(today, i - today_index);
+  }
+
   let data;
 
   axios.get('https://dpg.gg/test/calendar.json')
@@ -50,7 +66,6 @@
       var index =  date_to_array_index(key, today, today_index);
       if (index >= 0) {// otherwise outside of 50 week range
         days_array[index] = value;
-        days_date[index] = key;
       }
     }
     console.log(days_array);
