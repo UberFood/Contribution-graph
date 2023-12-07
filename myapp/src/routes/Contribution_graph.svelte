@@ -14,16 +14,16 @@
     var popup = document.getElementById("myPopup");
     popup.innerHTML = "";
 
-    var date_display = document.createElement('h2');
+    var date_display = document.createElement('h4');
     date_display.innerHTML = days_date[index];
-    var commits_display = document.createElement('h2');
+    var commits_display = document.createElement('h3');
     commits_display.innerHTML = days_array[index] + " contributions";
 
-    popup.appendChild(date_display);
     popup.appendChild(commits_display);
+    popup.appendChild(date_display);
 
-    popup.style.top = rect.top + 'px';
-    popup.style.left = rect.left + 'px';
+    popup.style.top = (rect.top - 238) + 'px';
+    popup.style.left = (rect.left - 72) + 'px';
 
     popup.style.visibility = 'visible';
 
@@ -121,11 +121,11 @@
 .popup .popuptext {
   visibility: hidden;
   width: 160px;
-  background-color: #555;
+  background-color: #000000;
   color: #fff;
   text-align: center;
-  border-radius: 6px;
-  padding: 8px 0;
+  border-radius: 2px;
+  padding: 2px 0;
   position: absolute;
   z-index: 1;
 }
@@ -139,7 +139,7 @@
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
-  border-color: transparent transparent #555 transparent; /* changed border botom color instead of top*/
+  border-color: transparent transparent #000000 transparent;
 }
 
 /* Toggle this class - hide and show the popup */
