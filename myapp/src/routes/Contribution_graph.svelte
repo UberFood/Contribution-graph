@@ -2,6 +2,8 @@
   import { format, compareAsc, differenceInDays, parseISO, subDays, addDays, subMonths, getMonth} from 'date-fns';
   import axios from 'axios';
 
+  const adjust = 495;
+
   function date_to_array_index(date, today, today_index) {
     var index =  today_index + differenceInDays(parseISO(date), today);
     return index;
@@ -21,15 +23,17 @@
     var popup = document.getElementById("myPopup");
     popup.innerHTML = "";
 
-    var date_display = document.createElement('h4');
+    var date_display = document.createElement('p');
+    date_display.id = "date_display";
     date_display.innerHTML = format(days_date[index], "eeee MMM d',' y");
-    var commits_display = document.createElement('h3');
+    var commits_display = document.createElement('p');
+    commits_display.id = "commits_display";
     commits_display.innerHTML = days_array[index] + " contributions";
 
     popup.appendChild(commits_display);
     popup.appendChild(date_display);
 
-    popup.style.top = (rect.top - 290) + 'px';
+    popup.style.top = (rect.top - adjust) + 'px';
     popup.style.left = (rect.left - 72) + 'px';
 
     popup.style.visibility = 'visible';
@@ -42,7 +46,7 @@
     var popup = document.getElementById("myPopup");
     popup.innerHTML = "";
 
-    var commits_display = document.createElement('h3');
+    var commits_display = document.createElement('p');
     var string;
     switch(index) {
       case 0:
@@ -65,13 +69,12 @@
 
     popup.appendChild(commits_display);
 
-    popup.style.top = (rect.top - 290) + 'px';
+    popup.style.top = (rect.top - adjust) + 'px';
     popup.style.left = (rect.left - 72) + 'px';
 
     popup.style.visibility = 'visible';
 
   }
-
 	const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
   const colors = ["light-gray", "#93deff", "#53a8b6", "#5585b5", "#00204a"];
   let weeks = [];
@@ -187,6 +190,16 @@
 
 <style>
 
+#commits_display {
+  margin : 2px;
+  padding: 1px;
+}
+
+#date_display {
+  margin : 2px;
+  padding: 1px;
+}
+
   .month-table {
     width: 1675px;
     margin-left: 50px;
@@ -211,10 +224,6 @@
   position: relative;
   display: inline-block;
   cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
 
 /* The actual popup */
@@ -228,18 +237,19 @@
   padding: 2px 0;
   position: absolute;
   z-index: 1;
+  height: 70px;
 }
 
 /* Popup arrow */
 .popup .popuptext::after {
   content: "";
   position: absolute;
-  bottom: 100%;
+  top: 100%;
   left: 50%;
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
-  border-color: transparent transparent #000000 transparent;
+  border-color: black transparent transparent transparent;
 }
 
 /* Add animation (fade in the popup) */
@@ -261,6 +271,7 @@
 .vertical {
   display: flex;
   flex-direction: column;
+  margin: 50px;
 }
 
 table {
