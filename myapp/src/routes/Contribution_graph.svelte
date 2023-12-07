@@ -7,9 +7,25 @@
     return index;
   }
 
-  function display_info(index) {
-    console.log(days_date[index]);
-    console.log(days_array[index]);
+  function display_info(event, index) {
+    var rect = event.target.getBoundingClientRect();
+    console.log(rect.top, rect.right, rect.bottom, rect.left);
+
+    var popup = document.getElementById("myPopup");
+    popup.innerHTML = "";
+
+    var date_display = document.createElement('h2');
+    date_display.innerHTML = days_date[index];
+    var commits_display = document.createElement('h2');
+    commits_display.innerHTML = days_array[index] + " contributions";
+
+    popup.appendChild(date_display);
+    popup.appendChild(commits_display);
+
+    popup.style.top = rect.top + 'px';
+    popup.style.left = rect.left + 'px';
+
+    popup.style.visibility = 'visible';
 
   }
 
@@ -67,13 +83,17 @@
       <tr>
           {#each weeks as week, k}
             <th>
-              <button class='calendar_element' id={('day_' + (k*7 + i))}  on:click={() => display_info(k*7 + i)} > </button>
+              <button class='calendar_element' id={('day_' + (k*7 + i))}  on:click={(event) => display_info(event, k*7 + i)} > </button>
             </th>
           {/each}
       </tr>
   {/each}
 
 </table>
+
+<div class="popup" >
+  <span class="popuptext" id="myPopup">A Simple Popup!</span>
+</div>
 
 <style>
 	.calendar_element {
@@ -85,4 +105,59 @@
   .calendar_element:hover {
     border-color:black;
   }
+
+  /* Popup container - can be anything you want */
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* The actual popup */
+.popup .popuptext {
+  visibility: hidden;
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #555 transparent; /* changed border botom color instead of top*/
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+
 </style>
